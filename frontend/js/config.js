@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'https://supersubtle-zoie-unsilvered.ngrok-free.dev/api';
 
 // API Endpoints
 const API_ENDPOINTS = {

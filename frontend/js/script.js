@@ -146,6 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEventListeners();
     setMinDate();
+    
+    // Check if we need to restore cart after login
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('restoreCart') === 'true') {
+        restorePendingCart();
+        // Remove the query parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
 });
 
 function initializeApp() {
@@ -604,6 +612,34 @@ window.addEventListener('scroll', function() {
         navbar.classList.remove('scrolled');
     }
 });
+
+// Restore pending cart after login
+function restorePendingCart() {
+    const pendingCart = localStorage.getItem('pendingCart');
+    if (pendingCart) {
+        try {
+            const cartData = JSON.parse(pendingCart);
+            currentState.cart = cartData;
+            
+            // Remove pending cart from localStorage
+            localStorage.removeItem('pendingCart');
+            
+            // Show cart and display success message
+            showCart();
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Cart Restored!',
+                text: 'Your cart has been restored. You can now proceed to checkout.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } catch (error) {
+            console.error('Error restoring cart:', error);
+            localStorage.removeItem('pendingCart');
+        }
+    }
+}
 
 // Smooth scrolling untuk anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

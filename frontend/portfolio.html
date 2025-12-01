@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio - Project Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-camera me-2"></i>Project Studio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="portfolio.html">Portofolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#booking">Pesan Sekarang</a></li>
+                    <li class="nav-item" id="authLink">
+                        <a class="nav-link btn-book" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-5 mt-5">
+        <div class="container py-5">
+            <h1 class="display-4">Portofolio Kami</h1>
+            <p class="lead">Koleksi karya terbaik Project Studio</p>
+        </div>
+    </header>
+
+    <!-- Gallery -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Filter Buttons -->
+            <div class="text-center mb-5">
+                <button class="btn btn-outline-dark active me-2" data-filter="all">Semua</button>
+                <button class="btn btn-outline-dark me-2" data-filter="wedding">Pernikahan</button>
+                <button class="btn btn-outline-dark me-2" data-filter="prewedding">Pre-Wedding</button>
+                <button class="btn btn-outline-dark" data-filter="event">Event</button>
+            </div>
+
+            <div class="row g-4">
+                <!-- Gallery Items -->
+                <div class="col-md-4 gallery-item wedding">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?wedding" class="card-img-top" alt="Wedding">
+                        <div class="card-body">
+                            <h5 class="card-title">Pernikahan Adat Sunda</h5>
+                            <p class="card-text text-muted">Bandung, 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 gallery-item prewedding">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?couple" class="card-img-top" alt="Prewedding">
+                        <div class="card-body">
+                            <h5 class="card-title">Prewedding di Kawah Putih</h5>
+                            <p class="card-text text-muted">Ciwidey, 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 gallery-item event">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?concert" class="card-img-top" alt="Event">
+                        <div class="card-body">
+                            <h5 class="card-title">Konser Musik Jazz</h5>
+                            <p class="card-text text-muted">Jakarta, 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 gallery-item wedding">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?bride" class="card-img-top" alt="Wedding">
+                        <div class="card-body">
+                            <h5 class="card-title">Intimate Wedding</h5>
+                            <p class="card-text text-muted">Lembang, 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 gallery-item prewedding">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?love" class="card-img-top" alt="Prewedding">
+                        <div class="card-body">
+                            <h5 class="card-title">Casual Prewedding</h5>
+                            <p class="card-text text-muted">Braga, 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 gallery-item event">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="https://source.unsplash.com/random/400x300/?conference" class="card-img-top" alt="Event">
+                        <div class="card-body">
+                            <h5 class="card-title">Corporate Gathering</h5>
+                            <p class="card-text text-muted">Bogor, 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 Project Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check login status
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const authLink = document.getElementById('authLink');
+
+        if (token && user) {
+            let dashboardLink = '';
+            if (user.role === 'admin' || user.role === 'super_admin') {
+                dashboardLink = '<li><a class="dropdown-item" href="admin.html">Dashboard Admin</a></li>';
+            }
+            
+            authLink.innerHTML = `
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i> ${user.name}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        ${dashboardLink}
+                        <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.reload();
+            });
+        }
+
+        // Filter functionality (Simple implementation)
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

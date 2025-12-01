@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Studio - Layanan Profesional</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        secondary: '#ec4899',
+                        dark: '#0f172a',
+                        light: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['"Outfit"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for things Tailwind doesn't cover easily */
+        body {
+            background-color: #f1f5f9;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .hero-image-blob {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 8s ease-in-out infinite;
+        }
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-nav" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="flex items-center gap-2 group">
+                    <img src="images/logo.png" alt="Project Studio" class="h-10 w-auto transition-transform group-hover:scale-110">
+                    <span class="font-heading font-bold text-2xl text-gradient">Project Studio</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="font-medium text-slate-600 hover:text-primary transition-colors">Beranda</a>
+                    <a href="#services" class="font-medium text-slate-600 hover:text-primary transition-colors">Layanan</a>
+                    <a href="#about" class="font-medium text-slate-600 hover:text-primary transition-colors">Tentang</a>
+                    <a href="#portfolio" class="font-medium text-slate-600 hover:text-primary transition-colors">Portofolio</a>
+                    <a href="#contact" class="font-medium text-slate-600 hover:text-primary transition-colors">Kontak</a>
+                    <div id="authLink">
+                        <a href="login.html" class="px-6 py-2.5 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-primary/30 transform hover:-translate-y-0.5">
+                            Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-slate-700 focus:outline-none z-50 relative" id="mobileMenuBtn">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white border-t border-slate-100 absolute w-full" id="mobileMenu">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#home" class="font-medium text-slate-600 hover:text-primary">Beranda</a>
+                <a href="#services" class="font-medium text-slate-600 hover:text-primary">Layanan</a>
+                <a href="#about" class="font-medium text-slate-600 hover:text-primary">Tentang</a>
+                <a href="#portfolio" class="font-medium text-slate-600 hover:text-primary">Portofolio</a>
+                <a href="#contact" class="font-medium text-slate-600 hover:text-primary">Kontak</a>
+                <div id="mobileAuthSection">
+                    <a href="login.html" class="px-6 py-2.5 bg-primary text-white font-semibold rounded-full text-center block">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 -z-10 w-1/2 h-full bg-gradient-to-bl from-primary/5 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 -z-10 w-1/2 h-full bg-gradient-to-tr from-secondary/5 to-transparent"></div>
+
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 order-2 lg:order-1" data-aos="fade-right">
+                    <h1 class="font-heading text-5xl lg:text-7xl font-bold leading-tight mb-6">
+                        Abadikan Momen <br>
+                        <span class="text-gradient">Terbaik Anda</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
+                        Kami menghadirkan layanan dokumentasi dan event organizer profesional untuk setiap momen berharga dalam hidup Anda dengan sentuhan estetik.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#booking" class="px-8 py-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-full transition-all shadow-xl hover:shadow-primary/40 transform hover:-translate-y-1 flex items-center gap-2">
+                            Mulai Sekarang <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#portfolio" class="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-full border border-slate-200 transition-all shadow-md hover:shadow-lg">
+                            Lihat Karya
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 order-1 lg:order-2" data-aos="fade-left">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary opacity-20 blur-3xl rounded-full"></div>
+                        <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Hero Image" class="relative z-10 w-full rounded-3xl shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wider mb-4 inline-block">LAYANAN KAMI</span>
+                <h2 class="font-heading text-4xl font-bold mb-4 text-slate-900">Solusi Lengkap Acara Anda</h2>
+                <p class="text-slate-600">Kami menyediakan berbagai layanan profesional dengan standar kualitas tinggi untuk kepuasan Anda.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="servicesContainer">
+                <!-- Services loaded dynamically -->
+                <div class="col-span-full text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2 relative" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="About Us" class="w-full rounded-3xl shadow-2xl">
+                    <div class="absolute -bottom-10 -right-10 bg-white p-8 rounded-3xl shadow-xl hidden md:block border border-slate-100">
+                        <div class="flex items-center gap-4">
+                            <div class="p-4 bg-primary/10 rounded-full text-primary">
+                                <i class="fas fa-award text-3xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading text-3xl font-bold text-slate-900">5+</h3>
+                                <p class="text-slate-500 font-medium">Tahun Pengalaman</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wider mb-4 inline-block">TENTANG KAMI</span>
+                    <h2 class="font-heading text-4xl font-bold mb-4 text-slate-900">Partner Terpercaya Momen Anda</h2>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Project Studio adalah tim kreatif yang berdedikasi untuk memberikan hasil terbaik dalam setiap project. Kami menggabungkan seni dan teknologi.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-primary/30 transition-colors group">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-eye text-xl"></i>
+                            </div>
+                            <h5 class="font-bold text-lg mb-2 text-slate-900">Visi</h5>
+                            <p class="text-sm text-slate-500" id="aboutVision">Menjadi market leader dalam industri kreatif dengan inovasi berkelanjutan.</p>
+                        </div>
+                        <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-primary/30 transition-colors group">
+                            <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-bullseye text-xl"></i>
+                            </div>
+                            <h5 class="font-bold text-lg mb-2 text-slate-900">Misi</h5>
+                            <p class="text-sm text-slate-500" id="aboutMission">Memberikan layanan berkualitas tinggi dan kepuasan pelanggan utama.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wider mb-4 inline-block">PORTOFOLIO</span>
+                <h2 class="font-heading text-4xl font-bold mb-4 text-slate-900">Karya Terbaru Kami</h2>
+                <p class="text-slate-600">Lihat bagaimana kami mengabadikan momen berharga klien kami dengan penuh dedikasi.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wedding" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Wedding</span>
+                        <h4 class="text-white font-bold text-xl">Wedding Photography</h4>
+                        <p class="text-slate-300 text-sm">Capture beautiful moments</p>
+                    </div>
+                </div>
+                <!-- Portfolio Item 2 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1511285560982-1351cdeb9821?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Event" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Event</span>
+                        <h4 class="text-white font-bold text-xl">Event Coverage</h4>
+                        <p class="text-slate-300 text-sm">Professional documentation</p>
+                    </div>
+                </div>
+                <!-- Portfolio Item 3 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Music" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Music Video</span>
+                        <h4 class="text-white font-bold text-xl">Creative Production</h4>
+                        <p class="text-slate-300 text-sm">High quality video production</p>
+                    </div>
+                </div>
+                <!-- Portfolio Item 4 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1605281317010-fe5ffe79ba02?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Portrait" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Portrait</span>
+                        <h4 class="text-white font-bold text-xl">Professional Portrait</h4>
+                        <p class="text-slate-300 text-sm">Studio & Outdoor session</p>
+                    </div>
+                </div>
+                <!-- Portfolio Item 5 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="500">
+                    <img src="https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Commercial" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Commercial</span>
+                        <h4 class="text-white font-bold text-xl">Product Photography</h4>
+                        <p class="text-slate-300 text-sm">Boost your brand identity</p>
+                    </div>
+                </div>
+                <!-- Portfolio Item 6 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="600">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Party" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full w-fit mb-2">Party</span>
+                        <h4 class="text-white font-bold text-xl">Birthday Party</h4>
+                        <p class="text-slate-300 text-sm">Fun and memorable moments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-center">
+                <div class="w-full lg:w-2/3" data-aos="zoom-in">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-100">
+                        <div class="text-center mb-10">
+                            <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wider mb-4 inline-block">BOOKING ONLINE</span>
+                            <h2 class="font-heading text-3xl font-bold mb-2 text-slate-900">Pesan Layanan</h2>
+                            <p class="text-slate-500">Amankan jadwal Anda sekarang dengan mudah</p>
+                        </div>
+                        <form id="bookingForm" class="space-y-6">
+                            <div class="text-center p-4 bg-slate-50 rounded-xl border border-dashed border-slate-300">
+                                <small class="uppercase text-slate-400 font-bold block mb-1 text-xs">Layanan Terpilih</small>
+                                <h5 id="serviceNameDisplay" class="text-primary font-bold text-lg">Silakan pilih layanan di atas</h5>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Paket</label>
+                                    <select class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="packageSelect" required>
+                                        <option value="">Pilih layanan terlebih dahulu</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Estimasi Harga</label>
+                                        <div id="priceDisplay" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 font-bold text-primary">-</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Durasi</label>
+                                        <div id="durationDisplay" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 font-bold text-slate-700">-</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Tanggal Acara</label>
+                                    <input type="date" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="eventDate" required>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 mb-2">Catatan</label>
+                                    <textarea class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" id="notes" rows="3" placeholder="Ceritakan detail acara Anda..."></textarea>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-xl shadow-lg hover:shadow-primary/40 transform hover:-translate-y-1 transition-all flex justify-center items-center gap-2">
+                                Lanjut ke Pembayaran <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-5" data-aos="fade-right">
+                    <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wider mb-4 inline-block">HUBUNGI KAMI</span>
+                    <h2 class="font-heading text-4xl font-bold mb-4 text-slate-900">Konsultasi Gratis</h2>
+                    <p class="text-slate-600 mb-8">Jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan atau ingin berkonsultasi.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 hover:border-primary/30 transition-colors">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mr-4">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold text-slate-900">Alamat Studio</h6>
+                                <p class="text-sm text-slate-500" id="contactAddress">Jl. Contoh No. 123, Bandung</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 hover:border-primary/30 transition-colors">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mr-4">
+                                <i class="fas fa-phone text-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold text-slate-900">Telepon / WA</h6>
+                                <a href="#" id="contactPhone" class="block text-sm text-slate-500 hover:text-primary transition-colors">+62 812-3456-7890</a>
+                                <a href="#" id="contactWhatsapp" class="text-sm text-green-600 font-bold hover:underline">Chat WhatsApp</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 hover:border-primary/30 transition-colors">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mr-4">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold text-slate-900">Email</h6>
+                                <a href="#" id="contactEmail" class="text-sm text-slate-500 hover:text-primary transition-colors">info@projectstudio.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 hover:border-primary/30 transition-colors">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mr-4">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold text-slate-900">Jam Operasional</h6>
+                                <p class="text-sm text-slate-500" id="workingDays">Senin - Sabtu</p>
+                                <p class="text-sm text-slate-500" id="workingHours">09:00 - 17:00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-7" data-aos="fade-left">
+                    <div class="h-full min-h-[500px] rounded-3xl overflow-hidden shadow-lg border border-slate-200" id="mapContainer">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.56347862248!2d107.57311705236174!3d-6.903444341687889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398252477f%3A0x146a1f93d3e815b2!2sBandung%2C%20Bandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1635733567890!5m2!1sen!2sid" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-slate-400 py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <h5 class="text-white font-heading font-bold text-xl mb-6">Project Studio</h5>
+                    <p class="mb-6 leading-relaxed">Mengabadikan setiap momen berharga Anda dengan sentuhan profesional dan kreatif. Kami hadir untuk membuat kenangan Anda abadi.</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary transition-colors"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-white font-heading font-bold text-xl mb-6">Menu Cepat</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="hover:text-white transition-colors">Beranda</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Layanan</a></li>
+                        <li><a href="#portfolio" class="hover:text-white transition-colors">Portofolio</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Kontak</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-heading font-bold text-xl mb-6">Layanan Populer</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="hover:text-white transition-colors">Wedding Photography</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Event Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Product Photoshoot</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cinematic Video</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-heading font-bold text-xl mb-6">Newsletter</h5>
+                    <p class="text-sm mb-4">Dapatkan info promo dan update terbaru dari kami.</p>
+                    <div class="flex">
+                        <input type="email" class="w-full px-4 py-2 rounded-l-lg bg-white/10 border border-white/20 focus:outline-none focus:border-primary text-white placeholder-slate-500" placeholder="Email Anda">
+                        <button class="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-r-lg transition-colors"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center">
+                <p class="text-sm">&copy; 2025 Project Studio. All rights reserved. Made with <i class="fas fa-heart text-red-500 mx-1"></i> in Bandung.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/config.js"></script>
+    <script src="js/homepage.js"></script>
+    <script>
+        // Initialize AOS Animation
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md', 'bg-white/90');
+                navbar.classList.remove('glass-nav');
+            } else {
+                navbar.classList.remove('shadow-md', 'bg-white/90');
+                navbar.classList.add('glass-nav');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Auth Check
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const authLink = document.getElementById('authLink');
+        const mobileAuthSection = document.getElementById('mobileAuthSection');
+
+        if (token && user.name) {
+            const isAdmin = user.role === 'admin' || user.role === 'super_admin';
+            const dashboardLink = isAdmin ? '<a href="admin.html" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Dashboard Admin</a>' : '';
+            
+            // Desktop Auth View
+            authLink.innerHTML = `
+                <div class="relative">
+                    <button id="userMenuBtn" class="flex items-center gap-2 font-medium text-slate-700 hover:text-primary focus:outline-none">
+                        <i class="fas fa-user"></i> ${user.name} <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                        ${dashboardLink}
+                        <a href="#" id="logoutBtn" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                    </div>
+                </div>
+            `;
+
+            // Add click toggle for dropdown
+            setTimeout(() => {
+                const userMenuBtn = document.getElementById('userMenuBtn');
+                const userDropdownMenu = document.getElementById('userDropdownMenu');
+                
+                if (userMenuBtn && userDropdownMenu) {
+                    userMenuBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        userDropdownMenu.classList.toggle('hidden');
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!userMenuBtn.contains(e.target) && !userDropdownMenu.contains(e.target)) {
+                            userDropdownMenu.classList.add('hidden');
+                        }
+                    });
+                }
+            }, 100);
+
+            // Mobile Auth View
+            if (mobileAuthSection) {
+                const mobileDashboardLink = isAdmin ? `<a href="admin.html" class="block py-2 text-slate-600 hover:text-primary font-medium">Dashboard Admin</a>` : '';
+                mobileAuthSection.innerHTML = `
+                    <div class="border-t border-slate-100 pt-4 mt-2">
+                        <div class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-user-circle"></i> ${user.name}</div>
+                        ${mobileDashboardLink}
+                        <a href="#" id="mobileLogoutBtn" class="block py-2 text-red-500 hover:text-red-600 font-medium">Logout</a>
+                    </div>
+                `;
+            }
+
+            // Logout Function
+            function handleLogout(e) {
+                e.preventDefault();
+                
+                Swal.fire({
+                    title: 'Konfirmasi Logout',
+                    text: "Apakah Anda yakin ingin keluar?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Logout Berhasil',
+                            text: 'Sampai jumpa kembali!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+            }
+
+            // Attach listeners
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+            const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+            if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
+        }
+    </script>
+</body>
+</html>

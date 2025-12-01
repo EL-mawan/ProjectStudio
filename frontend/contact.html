@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak - Project Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-camera me-2"></i>Project Studio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.html">Portofolio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#booking">Pesan Sekarang</a></li>
+                    <li class="nav-item" id="authLink">
+                        <a class="nav-link btn-book" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-5 mt-5">
+        <div class="container py-5">
+            <h1 class="display-4">Hubungi Kami</h1>
+            <p class="lead">Kami siap mendengar kebutuhan dokumentasi Anda</p>
+        </div>
+    </header>
+
+    <!-- Contact Info & Form -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 mb-4">
+                    <h3>Informasi Kontak</h3>
+                    <p class="text-muted">Jangan ragu untuk menghubungi kami melalui saluran berikut:</p>
+                    
+                    <ul class="list-unstyled mt-4">
+                        <li class="mb-3">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            Jl. Fotografi No. 123, Bandung, Jawa Barat
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            +62 812 3456 7890
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            info@jabarjerstudio.com
+                        </li>
+                        <li class="mb-3">
+                            <i class="fab fa-instagram text-primary me-2"></i>
+                            @jabarjerstudio
+                        </li>
+                    </ul>
+
+                    <div class="mt-5">
+                        <h4>Jam Operasional</h4>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Senin - Jumat</td>
+                                <td>09:00 - 17:00</td>
+                            </tr>
+                            <tr>
+                                <td>Sabtu</td>
+                                <td>10:00 - 15:00</td>
+                            </tr>
+                            <tr>
+                                <td>Minggu</td>
+                                <td>Tutup (Kecuali Event)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="col-md-7">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4">Kirim Pesan</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subjek</label>
+                                    <input type="text" class="form-control" id="subject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Pesan</label>
+                                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary px-4">Kirim Pesan</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <h3 class="text-center mb-4">Lokasi Kami</h3>
+            <div class="ratio ratio-21x9 shadow-sm rounded overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.56347862248!2d107.57311705234135!3d-6.903444341687889!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398252477f%3A0x146a1f93d3e815b2!2sBandung%2C%20Kota%20Bandung%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1647834567890!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 Project Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check login status
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const authLink = document.getElementById('authLink');
+
+        if (token && user) {
+            let dashboardLink = '';
+            if (user.role === 'admin' || user.role === 'super_admin') {
+                dashboardLink = '<li><a class="dropdown-item" href="admin.html">Dashboard Admin</a></li>';
+            }
+            
+            authLink.innerHTML = `
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i> ${user.name}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        ${dashboardLink}
+                        <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.reload();
+            });
+        }
+    </script>
+</body>
+</html>

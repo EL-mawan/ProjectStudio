@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Project Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .register-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .register-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .logo-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .logo-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .logo-section p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 14px 20px 14px 50px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+            outline: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.1rem;
+            z-index: 2;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: #4facfe;
+        }
+
+        .form-text {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { width: 33%; background: #ef4444; }
+        .strength-medium { width: 66%; background: #f59e0b; }
+        .strength-strong { width: 100%; background: #10b981; }
+
+        .btn-register {
+            width: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+            position: relative;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+        }
+
+        .btn-register:active {
+            transform: translateY(-1px);
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #999;
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .login-link a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #00f2fe;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #4facfe;
+            gap: 12px;
+        }
+
+        /* Loading State */
+        .btn-register.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn-register.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .register-card {
+                padding: 40px 30px;
+            }
+
+            .logo-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="text-center">
+                <span class="register-badge">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </span>
+            </div>
+
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <h2>Join Us Today!</h2>
+                <p>Create your account to get started</p>
+            </div>
+
+            <div id="alertMessage"></div>
+
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <i class="fas fa-at input-icon"></i>
+                        <input type="text" class="form-control" id="username" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-text">Username will be used for login</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-control" id="password" placeholder="Create a strong password" required minlength="6">
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-text">Minimum 6 characters</div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-register" id="registerBtn">
+                    <span id="btnText">Create Account</span>
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <div class="login-link">
+                <p class="mb-0">Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+        // Password toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = togglePassword.querySelector('i');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleIcon.classList.toggle('fa-eye');
+            toggleIcon.classList.toggle('fa-eye-slash');
+        });
+
+        // Password strength indicator
+        const strengthBar = document.getElementById('strengthBar');
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strength = calculatePasswordStrength(password);
+            
+            strengthBar.className = 'password-strength-bar';
+            if (strength === 'weak') {
+                strengthBar.classList.add('strength-weak');
+            } else if (strength === 'medium') {
+                strengthBar.classList.add('strength-medium');
+            } else if (strength === 'strong') {
+                strengthBar.classList.add('strength-strong');
+            }
+        });
+
+        function calculatePasswordStrength(password) {
+            if (password.length === 0) return '';
+            if (password.length < 6) return 'weak';
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/\d/.test(password)) strength++;
+            if (/[^a-zA-Z\d]/.test(password)) strength++;
+            
+            if (strength <= 1) return 'weak';
+            if (strength <= 2) return 'medium';
+            return 'strong';
+        }
+
+        // Register form handler
+        const registerForm = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        const btnText = document.getElementById('btnText');
+        const alertDiv = document.getElementById('alertMessage');
+
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Show loading state
+            registerBtn.classList.add('loading');
+            btnText.textContent = 'Creating account...';
+            alertDiv.innerHTML = '';
+
+            try {
+                const response = await fetch(API_ENDPOINTS.register, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.status === 201) {
+                    // Registration successful
+                    alertDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Registration successful! Redirecting to login...
+                        </div>
+                    `;
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    // Registration failed
+                    alertDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            ${data.error || 'Registration failed. Please try again.'}
+                        </div>
+                    `;
+                    registerBtn.classList.remove('loading');
+                    btnText.textContent = 'Create Account';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alertDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        Connection error. Please check your network and try again.
+                    </div>
+                `;
+                registerBtn.classList.remove('loading');
+                btnText.textContent = 'Create Account';
+            }
+        });
+
+        // Auto-focus on name field
+        document.getElementById('name').focus();
+    </script>
+</body>
+</html>

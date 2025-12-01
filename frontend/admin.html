@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Project Studio</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+        z-index: 1050;
+      }
+
+      .navbar-brand {
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: white !important;
+      }
+
+      .navbar .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+
+      .navbar .nav-link:hover {
+        color: white !important;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        height: calc(100vh - 70px);
+        width: 260px;
+        background: white;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.05);
+        overflow-y: auto;
+        transition: all 0.3s;
+        z-index: 1000;
+      }
+
+      .sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 10px;
+      }
+
+      .sidebar .nav-link {
+        color: #6c757d;
+        padding: 12px 20px;
+        margin: 4px 10px;
+        border-radius: 10px;
+        transition: all 0.3s;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+      }
+
+      .sidebar .nav-link i {
+        width: 20px;
+        margin-right: 12px;
+      }
+
+      .sidebar .nav-link:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        color: #667eea;
+        transform: translateX(5px);
+      }
+
+      .sidebar .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .sidebar-heading {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        font-weight: 700;
+        padding: 20px 20px 10px;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 260px;
+        padding: 30px;
+        min-height: calc(100vh - 70px);
+        transition: all 0.3s;
+      }
+
+      /* Responsive Sidebar */
+      @media (max-width: 991.98px) {
+        .sidebar {
+          left: -260px;
+          top: 0;
+          height: 100vh;
+          z-index: 1050;
+          box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar.active {
+          left: 0;
+        }
+
+        .sidebar-heading {
+            padding-top: 30px; /* Extra padding for top close area if needed, or just visual spacing */
+        }
+
+        .main-content {
+          margin-left: 0;
+          padding: 20px;
+          padding-top: 90px; /* Ensure content isn't hidden behind navbar */
+        }
+
+        .overlay {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1040;
+          backdrop-filter: blur(2px);
+        }
+
+        .overlay.active {
+          display: block;
+        }
+      }
+
+      /* Cards */
+      .card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        background: white;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transform: translateY(-5px);
+      }
+
+      .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 16px 16px 0 0 !important;
+        padding: 20px;
+        font-weight: 700;
+      }
+
+      /* Stats Cards */
+      .stat-card {
+        border-radius: 16px;
+        padding: 25px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(30%, -30%);
+      }
+
+      .stat-card i {
+        font-size: 2.5rem;
+        opacity: 0.3;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+      }
+
+      .stat-card h3 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
+
+      .stat-card p {
+        margin: 0;
+        opacity: 0.9;
+        font-weight: 500;
+      }
+
+      .stat-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .stat-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+      .stat-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      }
+      .stat-danger {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      }
+
+      /* Table */
+      .table {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .table thead th {
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        color: #667eea;
+        font-weight: 700;
+        border: none;
+        padding: 15px;
+      }
+
+      .table tbody tr {
+        transition: all 0.3s;
+      }
+
+      .table tbody tr:hover {
+        background: rgba(102, 126, 234, 0.05);
+        transform: scale(1.01);
+      }
+
+      /* Buttons */
+      .btn {
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+      }
+
+      .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+      }
+
+      /* Badges */
+      .badge {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+      }
+
+      /* Page Header */
+      .page-header {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0;
+      }
+
+
+
+      /* Content Sections */
+      .content-section {
+        display: none;
+      }
+
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Order Status Badges */
+      .order-status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+      .status-pending { background-color: #fff3cd; color: #856404; }
+      .status-confirmed { background-color: #d1ecf1; color: #0c5460; }
+      .status-paid { background-color: #d4edda; color: #155724; }
+      .status-in_progress { background-color: #cce5ff; color: #004085; }
+      .status-completed { background-color: #d4edda; color: #155724; }
+      .status-cancelled { background-color: #f8d7da; color: #721c24; }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid px-4">
+        <button class="btn text-white d-lg-none me-3" id="sidebarToggle" style="font-size: 1.5rem; z-index: 1051;">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-shield-alt me-2"></i>
+          Project Studio Admin
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i> View Website
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <i class="fas fa-user-circle me-1"></i>
+                <span id="adminName">Admin</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="index.html"
+                    ><i class="fas fa-home me-2"></i>Homepage</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#" id="logoutBtn"
+                    ><i class="fas fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-heading">Main Menu</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="#dashboard">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#orders">
+            <i class="fas fa-shopping-cart"></i> Pesanan
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-heading">Content Management</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#services">
+            <i class="fas fa-concierge-bell"></i> Layanan
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#packages">
+            <i class="fas fa-box"></i> Paket
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">
+            <i class="fas fa-info-circle"></i> Tentang
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#hero">
+            <i class="fas fa-image"></i> Hero Section
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact">
+            <i class="fas fa-address-book"></i> Kontak
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#settings">
+            <i class="fas fa-cog"></i> Pengaturan
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-heading">Website</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html" target="_blank">
+            <i class="fas fa-external-link-alt"></i> Lihat Website
+          </a>
+        </li>
+      </ul>
+
+      <!-- Mobile Only Account Menu -->
+      <div class="d-lg-none">
+          <div class="sidebar-heading">Akun</div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="mobileLogoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout Admin
+              </a>
+            </li>
+          </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" style="margin-top: 70px;">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="content-section active">
+        <div class="page-header">
+          <h1><i class="fas fa-tachometer-alt me-2"></i>Dashboard Overview</h1>
+          <p class="text-muted mb-0">
+            Selamat datang di admin dashboard Project Studio
+          </p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div class="stat-card stat-primary">
+              <h3 id="totalOrders">0</h3>
+              <p>Total Pesanan</p>
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-success">
+              <h3 id="completedOrders">0</h3>
+              <p>Selesai</p>
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-warning">
+              <h3 id="pendingOrders">0</h3>
+              <p>Pending</p>
+              <i class="fas fa-clock"></i>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card stat-danger">
+              <h3 id="cancelledOrders">0</h3>
+              <p>Dibatalkan</p>
+              <i class="fas fa-times-circle"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registered Users -->
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-users me-2"></i>Pengguna Terdaftar
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Terdaftar</th>
+                  </tr>
+                </thead>
+                <tbody id="recentUsersTable">
+                  <tr>
+                    <td colspan="5" class="text-center">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Orders Section -->
+      <section id="orders" class="content-section">
+        <div class="page-header">
+          <h1><i class="fas fa-shopping-cart me-2"></i>Kelola Pesanan</h1>
+          <p class="text-muted mb-0">Manage dan update status pesanan</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <i class="fas fa-list me-2"></i>Daftar Semua Pesanan
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Layanan</th>
+                    <th>Tanggal Acara</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTable">
+                  <tr>
+                    <td colspan="8" class="text-center">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modal untuk edit status -->
+      <div class="modal fade" id="editStatusModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Status Pesanan</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <input type="hidden" id="editOrderId">
+              <div class="mb-3">
+                <label for="statusSelect" class="form-label">Status</label>
+                <select class="form-select" id="statusSelect">
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="paid">Paid</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+              <button type="button" class="btn btn-primary" id="saveStatusBtn">Simpan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other sections will be added here -->
+       <!-- Services Management Section -->
+<section id="services" class="content-section">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Kelola Layanan</h2>
+    <button class="btn btn-primary" onclick="newService()">
+      <i class="fas fa-plus me-2"></i>Tambah Layanan
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nama</th>
+              <th>Deskripsi</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="servicesTableBody">
+            <tr>
+              <td colspan="5" class="text-center">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Packages Management Section -->
+<section id="packages" class="content-section">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Kelola Paket</h2>
+    <button class="btn btn-primary" onclick="newPackage()">
+      <i class="fas fa-plus me-2"></i>Tambah Paket
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Layanan</th>
+              <th>Nama Paket</th>
+              <th>Harga</th>
+              <th>Durasi</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="packagesTableBody">
+            <tr>
+              <td colspan="7" class="text-center">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Content Section -->
+<section id="about" class="content-section">
+  <h2 class="mb-4">Edit Konten Tentang</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <form id="aboutForm">
+        <div class="mb-3">
+          <label class="form-label">Judul</label>
+          <input type="text" class="form-control" id="aboutTitle" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Subjudul</label>
+          <input type="text" class="form-control" id="aboutSubtitle" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Deskripsi</label>
+          <textarea
+            class="form-control"
+            id="aboutDescription"
+            rows="5"
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Misi</label>
+          <textarea class="form-control" id="aboutMission" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Visi</label>
+          <textarea class="form-control" id="aboutVision" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save me-2"></i>Simpan Perubahan
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Section -->
+<section id="hero" class="content-section">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Kelola Hero Section</h2>
+    <button class="btn btn-primary" onclick="newHero()">
+      <i class="fas fa-plus me-2"></i>Tambah Hero
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Judul</th>
+              <th>Subjudul</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="heroTableBody">
+            <tr>
+              <td colspan="5" class="text-center">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Info Section -->
+<section id="contact" class="content-section">
+  <h2 class="mb-4">Edit Informasi Kontak</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <form id="contactForm">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Alamat</label>
+            <textarea
+              class="form-control"
+              id="contactAddress"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Telepon</label>
+            <input type="text" class="form-control" id="contactPhone" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" id="contactEmail" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">WhatsApp</label>
+            <input type="text" class="form-control" id="contactWhatsapp" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Instagram</label>
+            <input type="text" class="form-control" id="contactInstagram" />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Facebook</label>
+            <input type="text" class="form-control" id="contactFacebook" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Hari Kerja</label>
+            <input
+              type="text"
+              class="form-control"
+              id="contactWorkingDays"
+              placeholder="Senin - Sabtu"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Jam Kerja</label>
+            <input
+              type="text"
+              class="form-control"
+              id="contactWorkingHours"
+              placeholder="09:00 - 18:00"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Google Maps Embed Code</label>
+          <textarea
+            class="form-control"
+            id="contactMapEmbed"
+            rows="3"
+            placeholder="<iframe src=..."
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save me-2"></i>Simpan Perubahan
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Site Settings Section -->
+<section id="settings" class="content-section">
+  <h2 class="mb-4">Pengaturan Website</h2>
+
+  <div class="card">
+    <div class="card-body">
+      <form id="settingsForm">
+        <div class="mb-3">
+          <label class="form-label">Nama Website</label>
+          <input type="text" class="form-control" id="settingsSiteName" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Logo URL</label>
+          <input type="text" class="form-control" id="settingsLogoURL" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Favicon URL</label>
+          <input type="text" class="form-control" id="settingsFaviconURL" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Meta Description</label>
+          <textarea
+            class="form-control"
+            id="settingsMetaDescription"
+            rows="3"
+          ></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Meta Keywords</label>
+          <input
+            type="text"
+            class="form-control"
+            id="settingsMetaKeywords"
+            placeholder="keyword1, keyword2, keyword3"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save me-2"></i>Simpan Perubahan
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- Service Modal -->
+<div class="modal fade" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Layanan</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="serviceForm">
+          <input type="hidden" id="serviceId" />
+          <div class="mb-3">
+            <label class="form-label">Nama Layanan</label>
+            <input type="text" class="form-control" id="serviceName" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="serviceDescription"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">URL Gambar</label>
+            <input type="text" class="form-control" id="serviceImage" />
+          </div>
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="serviceActive"
+              checked
+            />
+            <label class="form-check-label">Aktif</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Batal
+        </button>
+        <button type="button" class="btn btn-primary" onclick="saveService()">
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Package Modal -->
+<div class="modal fade" id="packageModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Paket</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="packageForm">
+          <input type="hidden" id="packageId" />
+          <div class="mb-3">
+            <label class="form-label">Layanan</label>
+            <select class="form-select" id="packageServiceId" required>
+              <option value="">Pilih Layanan</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nama Paket</label>
+            <input type="text" class="form-control" id="packageName" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea
+              class="form-control"
+              id="packageDescription"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Harga (Rp)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="packagePrice"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Durasi (jam)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="packageDuration"
+                required
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fitur (satu per baris)</label>
+            <textarea
+              class="form-control"
+              id="packageFeatures"
+              rows="5"
+              placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3"
+            ></textarea>
+          </div>
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="packageActive"
+              checked
+            />
+            <label class="form-check-label">Aktif</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Batal
+        </button>
+        <button type="button" class="btn btn-primary" onclick="savePackage()">
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hero Modal -->
+<div class="modal fade" id="heroModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Hero Section</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="heroForm">
+          <input type="hidden" id="heroId" />
+          <div class="mb-3">
+            <label class="form-label">Judul</label>
+            <input type="text" class="form-control" id="heroTitle" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subjudul</label>
+            <textarea
+              class="form-control"
+              id="heroSubtitle"
+              rows="2"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Teks Tombol</label>
+            <input type="text" class="form-control" id="heroButtonText" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Link Tombol</label>
+            <input type="text" class="form-control" id="heroButtonLink" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">URL Gambar</label>
+            <input type="text" class="form-control" id="heroImageURL" />
+          </div>
+          <div class="mb-3 form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="heroActive"
+              checked
+            />
+            <label class="form-check-label">Aktif</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Batal
+        </button>
+        <button type="button" class="btn btn-primary" onclick="saveHero()">
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="sidebarOverlay"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/config.js"></script>
+    <script>
+      // Sidebar Toggle
+      const sidebar = document.querySelector('.sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', toggleSidebar);
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+      }
+
+      // Close sidebar when clicking a link on mobile
+      document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                toggleSidebar();
+            }
+        });
+      });
+
+      // Check authentication
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (!token || !user) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Akses Ditolak',
+            text: 'Anda harus login terlebih dahulu.',
+            confirmButtonText: 'Login Sekarang',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "login.html";
+            }
+        });
+      } else if (user.role !== 'admin' && user.role !== 'super_admin') {
+         Swal.fire({
+            icon: 'error',
+            title: 'Akses Dilarang',
+            text: 'Anda tidak memiliki izin untuk mengakses halaman ini.',
+            confirmButtonText: 'Kembali ke Beranda',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "index.html";
+            }
+        });
+      } else if (user.name) {
+        document.getElementById("adminName").textContent = user.name;
+      }
+
+      // Logout Function
+      function handleLogout(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: "Apakah Anda yakin ingin keluar?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logout Berhasil',
+                    text: 'Sampai jumpa kembali!',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
+            }
+        });
+      }
+
+      // Attach logout listeners
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+
+      const mobileLogoutBtn = document.getElementById("mobileLogoutBtn");
+      if (mobileLogoutBtn) mobileLogoutBtn.addEventListener("click", handleLogout);
+
+      // Load Orders
+      function loadOrders() {
+        fetch(API_ENDPOINTS.adminOrders, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((response) => response.json())
+          .then((orders) => {
+            displayOrders(orders);
+            updateStatistics(orders);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function displayOrders(orders) {
+        const tbody = document.getElementById("ordersTable");
+        tbody.innerHTML = "";
+
+        if (orders.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada pesanan</td></tr>';
+          return;
+        }
+
+        orders.forEach((order) => {
+          const row = document.createElement("tr");
+          const midtransBtn = order.payment_url ? 
+            `<button class="btn btn-sm btn-info check-midtrans" data-id="${order.id}" title="Cek Status Midtrans">
+              <i class="fas fa-sync"></i> Check
+            </button>` : '<span class="text-muted">-</span>';
+          
+          row.innerHTML = `
+            <td>${order.id}</td>
+            <td>${order.customer_name}<br><small>${order.customer_phone}</small></td>
+            <td>${order.service_type} - ${order.package ? order.package.name : order.package_name}</td>
+            <td>${new Date(order.event_date).toLocaleDateString("id-ID")}</td>
+            <td>Rp ${order.subtotal.toLocaleString("id-ID")}</td>
+            <td><span class="order-status status-${order.status}">${order.status}</span></td>
+            <td>${midtransBtn}</td>
+            <td>
+              <button class="btn btn-sm btn-primary edit-status me-1" data-id="${order.id}" data-status="${order.status}">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger delete-order" data-id="${order.id}" data-customer="${order.customer_name}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        // Add event listeners to edit buttons
+        document.querySelectorAll(".edit-status").forEach((button) => {
+          button.addEventListener("click", function () {
+            const orderId = this.getAttribute("data-id");
+            const currentStatus = this.getAttribute("data-status");
+
+            document.getElementById("editOrderId").value = orderId;
+            document.getElementById("statusSelect").value = currentStatus;
+
+            const modal = new bootstrap.Modal(document.getElementById("editStatusModal"));
+            modal.show();
+          });
+        });
+
+        // Add event listeners to Midtrans check buttons
+        document.querySelectorAll(".check-midtrans").forEach((button) => {
+          button.addEventListener("click", function () {
+            const orderId = this.getAttribute("data-id");
+            checkMidtransStatus(orderId);
+          });
+        });
+
+        // Add event listeners to delete buttons
+        document.querySelectorAll(".delete-order").forEach((button) => {
+          button.addEventListener("click", function () {
+            const orderId = this.getAttribute("data-id");
+            const customerName = this.getAttribute("data-customer");
+            deleteOrder(orderId, customerName);
+          });
+        });
+      }
+
+      // Function to check Midtrans payment status
+      function checkMidtransStatus(orderId) {
+        const btn = document.querySelector(`.check-midtrans[data-id="${orderId}"]`);
+        const originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+        fetch(API_ENDPOINTS.paymentStatus(orderId), {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+
+            // Show status info
+            Swal.fire({
+              icon: 'info',
+              title: 'Status Pembayaran Midtrans',
+              html: `
+                <div class="text-left">
+                  <p><strong>Order ID:</strong> ${data.order_id}</p>
+                  <p><strong>Transaction Status:</strong> <span class="badge bg-primary">${data.transaction_status || 'N/A'}</span></p>
+                  <p><strong>Payment Type:</strong> ${data.payment_type || 'N/A'}</p>
+                  <p><strong>Gross Amount:</strong> Rp ${data.gross_amount ? parseInt(data.gross_amount).toLocaleString('id-ID') : 'N/A'}</p>
+                </div>
+              `,
+              confirmButtonText: 'Refresh Data',
+              showCancelButton: true,
+              cancelButtonText: 'Tutup'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                loadOrders(); // Reload orders to get updated status
+              }
+            });
+          })
+          .catch((error) => {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+            console.error("Error:", error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal Cek Status',
+              text: 'Tidak dapat mengecek status pembayaran dari Midtrans.'
+            });
+          });
+      }
+
+      // Function to delete order
+      function deleteOrder(orderId, customerName) {
+        Swal.fire({
+          title: 'Hapus Pesanan?',
+          html: `Apakah Anda yakin ingin menghapus pesanan dari <strong>${customerName}</strong>?<br><small class="text-muted">Tindakan ini tidak dapat dibatalkan.</small>`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Ya, Hapus!',
+          cancelButtonText: 'Batal'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Show loading
+            Swal.fire({
+              title: 'Menghapus...',
+              text: 'Mohon tunggu',
+              allowOutsideClick: false,
+              didOpen: () => {
+                Swal.showLoading();
+              }
+            });
+
+            // Delete order
+            fetch(`${API_BASE_URL}/orders/${orderId}`, {
+              method: 'DELETE',
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Berhasil!',
+                  text: 'Pesanan berhasil dihapus.',
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                loadOrders(); // Reload orders list
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Gagal Menghapus',
+                  text: 'Terjadi kesalahan saat menghapus pesanan.'
+                });
+              });
+          }
+        });
+      }
+
+      function updateStatistics(orders) {
+        document.getElementById("totalOrders").textContent = orders.length;
+        document.getElementById("completedOrders").textContent = orders.filter((o) => o.status === "completed").length;
+        document.getElementById("pendingOrders").textContent = orders.filter((o) => o.status === "pending").length;
+        document.getElementById("cancelledOrders").textContent = orders.filter((o) => o.status === "cancelled").length;
+      }
+
+      // Load Recent Users
+      function loadRecentUsers() {
+        fetch(API_ENDPOINTS.adminUsers, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((users) => {
+            const tbody = document.getElementById("recentUsersTable");
+            tbody.innerHTML = "";
+
+            if (!users || users.length === 0) {
+              tbody.innerHTML = '<tr><td colspan="5" class="text-center">Belum ada pengguna terdaftar</td></tr>';
+              return;
+            }
+
+            // Show only the 5 most recent users
+            const recentUsers = users.slice(0, 5);
+            
+            recentUsers.forEach((user) => {
+              const row = document.createElement("tr");
+              const roleClass = user.role === 'super_admin' ? 'badge bg-danger' : user.role === 'admin' ? 'badge bg-primary' : 'badge bg-secondary';
+              
+              row.innerHTML = `
+                <td>${user.ID}</td>
+                <td>${user.name}</td>
+                <td>${user.username}</td>
+                <td><span class="${roleClass}">${user.role}</span></td>
+                <td>${new Date(user.CreatedAt).toLocaleDateString("id-ID")}</td>
+              `;
+              tbody.appendChild(row);
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading users:", error);
+            document.getElementById("recentUsersTable").innerHTML = 
+              '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data pengguna. ' + error.message + '</td></tr>';
+          });
+      }
+
+      // Save status
+      document.getElementById("saveStatusBtn").addEventListener("click", function () {
+        const orderId = document.getElementById("editOrderId").value;
+        const newStatus = document.getElementById("statusSelect").value;
+
+        fetch(API_ENDPOINTS.adminUpdateOrderStatus(orderId), {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({ status: newStatus }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const modal = bootstrap.Modal.getInstance(document.getElementById("editStatusModal"));
+            modal.hide();
+            loadOrders();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Gagal update status");
+          });
+      });
+
+      // Load dashboard stats
+      function loadDashboardStats() {
+        loadOrders(); // Reuse orders data for dashboard
+        loadRecentUsers(); // Load recent registered users
+      }
+
+      // Section Navigation
+      function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll(".content-section").forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        // Show selected section
+        const section = document.getElementById(sectionId.replace("#", ""));
+        if (section) {
+          section.classList.add("active");
+          loadSectionData(sectionId.replace("#", ""));
+        }
+
+        // Update active nav link
+        document.querySelectorAll(".sidebar .nav-link").forEach((link) => {
+          link.classList.remove("active");
+        });
+        const activeLink = document.querySelector(`.sidebar a[href="${sectionId}"]`);
+        if (activeLink) {
+          activeLink.classList.add("active");
+        }
+      }
+
+      function loadSectionData(section) {
+        switch (section) {
+          case "dashboard":
+            loadDashboardStats();
+            break;
+          case "orders":
+            loadOrders();
+            break;
+          case "services":
+            loadServices();
+            break;
+          case "packages":
+            loadPackages();
+            break;
+          case "about":
+            loadAboutContent();
+            break;
+          case "hero":
+            loadHeroContent();
+            break;
+          case "contact":
+            loadContactInfo();
+            break;
+          case "settings":
+            loadSiteSettings();
+            break;
+        }
+      }
+
+      // Handle sidebar clicks
+      document.querySelectorAll('.sidebar a[href^="#"]').forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const sectionId = this.getAttribute("href");
+          showSection(sectionId);
+        });
+      });
+
+      // Show dashboard by default
+      document.addEventListener("DOMContentLoaded", function () {
+        showSection("#dashboard");
+      });
+
+      // ============================================
+      // SERVICES MANAGEMENT
+      // ============================================
+      let services = [];
+
+      function loadServices() {
+        fetch(API_ENDPOINTS.services)
+          .then(response => response.json())
+          .then(data => {
+            services = data || [];
+            displayServices();
+          })
+          .catch(error => console.error('Error loading services:', error));
+      }
+
+      function displayServices() {
+        const tbody = document.getElementById('servicesTableBody');
+        if (!tbody) return;
+
+        if (services.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada layanan</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = services.map(service => `
+          <tr>
+            <td>${service.id}</td>
+            <td>${service.name}</td>
+            <td>${service.description || '-'}</td>
+            <td><span class="badge bg-${service.active ? 'success' : 'secondary'}">${service.active ? 'Active' : 'Inactive'}</span></td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editService(${service.id})"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-sm btn-danger" onclick="deleteService(${service.id})"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function newService() {
+        document.getElementById('serviceForm').reset();
+        document.getElementById('serviceId').value = '';
+        new bootstrap.Modal(document.getElementById('serviceModal')).show();
+      }
+
+      function editService(id) {
+        const service = services.find(s => s.id === id);
+        if (!service) return;
+
+        document.getElementById('serviceId').value = service.id;
+        document.getElementById('serviceName').value = service.name;
+        document.getElementById('serviceDescription').value = service.description || '';
+        document.getElementById('serviceImage').value = service.image_url || '';
+        document.getElementById('serviceActive').checked = service.active;
+
+        new bootstrap.Modal(document.getElementById('serviceModal')).show();
+      }
+
+      function saveService() {
+        const formData = {
+          name: document.getElementById('serviceName').value,
+          description: document.getElementById('serviceDescription').value,
+          image_url: document.getElementById('serviceImage').value,
+          active: document.getElementById('serviceActive').checked
+        };
+
+        const serviceId = document.getElementById('serviceId').value;
+        const url = serviceId ? API_ENDPOINTS.adminUpdateService(serviceId) : API_ENDPOINTS.adminCreateService;
+        const method = serviceId ? 'PUT' : 'POST';
+
+        fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          bootstrap.Modal.getInstance(document.getElementById('serviceModal')).hide();
+          loadServices();
+          alert('Service saved successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to save service');
+        });
+      }
+
+      function deleteService(id) {
+        if (!confirm('Are you sure you want to delete this service?')) return;
+
+        fetch(API_ENDPOINTS.adminDeleteService(id), {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(() => {
+          loadServices();
+          alert('Service deleted successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to delete service');
+        });
+      }
+
+      // ============================================
+      // PACKAGES MANAGEMENT
+      // ============================================
+      let packages = [];
+
+      function loadPackages() {
+        Promise.all([
+          fetch(API_ENDPOINTS.packages).then(r => r.json()),
+          fetch(API_ENDPOINTS.services).then(r => r.json())
+        ])
+        .then(([pkgs, srvs]) => {
+          packages = pkgs || [];
+          services = srvs || [];
+          displayPackages();
+          populateServiceSelect();
+        })
+        .catch(error => console.error('Error loading packages:', error));
+      }
+
+      function displayPackages() {
+        const tbody = document.getElementById('packagesTableBody');
+        if (!tbody) return;
+
+        if (packages.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada paket</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = packages.map(pkg => {
+          const service = services.find(s => s.id === pkg.service_id);
+          return `
+            <tr>
+              <td>${pkg.id}</td>
+              <td>${service ? service.name : '-'}</td>
+              <td>${pkg.name}</td>
+              <td>Rp ${pkg.price.toLocaleString('id-ID')}</td>
+              <td>${pkg.duration} jam</td>
+              <td><span class="badge bg-${pkg.active ? 'success' : 'secondary'}">${pkg.active ? 'Active' : 'Inactive'}</span></td>
+              <td>
+                <button class="btn btn-sm btn-primary" onclick="editPackage(${pkg.id})"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="deletePackage(${pkg.id})"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function populateServiceSelect() {
+        const select = document.getElementById('packageServiceId');
+        if (!select) return;
+        
+        select.innerHTML = '<option value="">Pilih Layanan</option>' +
+          services.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+      }
+
+      function newPackage() {
+        document.getElementById('packageForm').reset();
+        document.getElementById('packageId').value = '';
+        new bootstrap.Modal(document.getElementById('packageModal')).show();
+      }
+
+      function editPackage(id) {
+        const pkg = packages.find(p => p.id === id);
+        if (!pkg) return;
+
+        document.getElementById('packageId').value = pkg.id;
+        document.getElementById('packageServiceId').value = pkg.service_id;
+        document.getElementById('packageName').value = pkg.name;
+        document.getElementById('packageDescription').value = pkg.description || '';
+        document.getElementById('packagePrice').value = pkg.price;
+        document.getElementById('packageDuration').value = pkg.duration;
+        document.getElementById('packageFeatures').value = (pkg.features || []).join('\n');
+        document.getElementById('packageActive').checked = pkg.active;
+
+        new bootstrap.Modal(document.getElementById('packageModal')).show();
+      }
+
+      function savePackage() {
+        const features = document.getElementById('packageFeatures').value
+          .split('\n')
+          .filter(f => f.trim())
+          .map(f => f.trim());
+
+        const formData = {
+          service_id: parseInt(document.getElementById('packageServiceId').value),
+          name: document.getElementById('packageName').value,
+          description: document.getElementById('packageDescription').value,
+          price: parseInt(document.getElementById('packagePrice').value),
+          duration: parseInt(document.getElementById('packageDuration').value),
+          features: features,
+          active: document.getElementById('packageActive').checked
+        };
+
+        const packageId = document.getElementById('packageId').value;
+        const url = packageId ? API_ENDPOINTS.adminUpdatePackage(packageId) : API_ENDPOINTS.adminCreatePackage;
+        const method = packageId ? 'PUT' : 'POST';
+
+        fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          bootstrap.Modal.getInstance(document.getElementById('packageModal')).hide();
+          loadPackages();
+          alert('Package saved successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to save package');
+        });
+      }
+
+      function deletePackage(id) {
+        if (!confirm('Are you sure you want to delete this package?')) return;
+
+        fetch(API_ENDPOINTS.adminDeletePackage(id), {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(() => {
+          loadPackages();
+          alert('Package deleted successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to delete package');
+        });
+      }
+
+      // ============================================
+      // ABOUT CONTENT
+      // ============================================
+      function loadAboutContent() {
+        fetch(API_ENDPOINTS.aboutContent)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('aboutTitle').value = data.title || '';
+            document.getElementById('aboutSubtitle').value = data.subtitle || '';
+            document.getElementById('aboutDescription').value = data.description || '';
+            document.getElementById('aboutMission').value = data.mission || '';
+            document.getElementById('aboutVision').value = data.vision || '';
+          })
+          .catch(error => console.error('Error loading about content:', error));
+      }
+
+      document.getElementById('aboutForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+          title: document.getElementById('aboutTitle').value,
+          subtitle: document.getElementById('aboutSubtitle').value,
+          description: document.getElementById('aboutDescription').value,
+          mission: document.getElementById('aboutMission').value,
+          vision: document.getElementById('aboutVision').value
+        };
+
+        fetch(API_ENDPOINTS.adminUpdateAbout, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert('About content updated successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to update about content');
+        });
+      });
+
+      // ============================================
+      // HERO CONTENT
+      // ============================================
+      let heroes = [];
+
+      function loadHeroContent() {
+        fetch(API_ENDPOINTS.adminGetAllHero, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+          .then(response => response.json())
+          .then(data => {
+            heroes = data || [];
+            displayHeroes();
+          })
+          .catch(error => console.error('Error loading heroes:', error));
+      }
+
+      function displayHeroes() {
+        const tbody = document.getElementById('heroTableBody');
+        if (!tbody) return;
+
+        if (heroes.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada hero</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = heroes.map(hero => `
+          <tr>
+            <td>${hero.id}</td>
+            <td>${hero.title}</td>
+            <td>${hero.subtitle || '-'}</td>
+            <td><span class="badge bg-${hero.active ? 'success' : 'secondary'}">${hero.active ? 'Active' : 'Inactive'}</span></td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="editHero(${hero.id})"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-sm btn-danger" onclick="deleteHero(${hero.id})"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      function newHero() {
+        document.getElementById('heroForm').reset();
+        document.getElementById('heroId').value = '';
+        new bootstrap.Modal(document.getElementById('heroModal')).show();
+      }
+
+      function editHero(id) {
+        const hero = heroes.find(h => h.id === id);
+        if (!hero) return;
+
+        document.getElementById('heroId').value = hero.id;
+        document.getElementById('heroTitle').value = hero.title;
+        document.getElementById('heroSubtitle').value = hero.subtitle || '';
+        document.getElementById('heroButtonText').value = hero.button_text || '';
+        document.getElementById('heroButtonLink').value = hero.button_link || '';
+        document.getElementById('heroImageURL').value = hero.image_url || '';
+        document.getElementById('heroActive').checked = hero.active;
+
+        new bootstrap.Modal(document.getElementById('heroModal')).show();
+      }
+
+      function saveHero() {
+        const formData = {
+          title: document.getElementById('heroTitle').value,
+          subtitle: document.getElementById('heroSubtitle').value,
+          button_text: document.getElementById('heroButtonText').value,
+          button_link: document.getElementById('heroButtonLink').value,
+          image_url: document.getElementById('heroImageURL').value,
+          active: document.getElementById('heroActive').checked
+        };
+
+        const heroId = document.getElementById('heroId').value;
+        const url = heroId ? API_ENDPOINTS.adminUpdateHero(heroId) : API_ENDPOINTS.adminCreateHero;
+        const method = heroId ? 'PUT' : 'POST';
+
+        fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          bootstrap.Modal.getInstance(document.getElementById('heroModal')).hide();
+          loadHeroContent();
+          alert('Hero saved successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to save hero');
+        });
+      }
+
+      function deleteHero(id) {
+        if (!confirm('Are you sure you want to delete this hero?')) return;
+
+        fetch(API_ENDPOINTS.adminDeleteHero(id), {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(() => {
+          loadHeroContent();
+          alert('Hero deleted successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to delete hero');
+        });
+      }
+
+      // ============================================
+      // CONTACT INFO
+      // ============================================
+      function loadContactInfo() {
+        fetch(API_ENDPOINTS.contactInfo)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('contactAddress').value = data.address || '';
+            document.getElementById('contactPhone').value = data.phone || '';
+            document.getElementById('contactEmail').value = data.email || '';
+            document.getElementById('contactWhatsapp').value = data.whatsapp || '';
+            document.getElementById('contactInstagram').value = data.instagram || '';
+            document.getElementById('contactFacebook').value = data.facebook || '';
+            document.getElementById('contactWorkingDays').value = data.working_days || '';
+            document.getElementById('contactWorkingHours').value = data.working_hours || '';
+            document.getElementById('contactMapEmbed').value = data.map_embed || '';
+          })
+          .catch(error => console.error('Error loading contact info:', error));
+      }
+
+      document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+          address: document.getElementById('contactAddress').value,
+          phone: document.getElementById('contactPhone').value,
+          email: document.getElementById('contactEmail').value,
+          whatsapp: document.getElementById('contactWhatsapp').value,
+          instagram: document.getElementById('contactInstagram').value,
+          facebook: document.getElementById('contactFacebook').value,
+          working_days: document.getElementById('contactWorkingDays').value,
+          working_hours: document.getElementById('contactWorkingHours').value,
+          map_embed: document.getElementById('contactMapEmbed').value
+        };
+
+        fetch(API_ENDPOINTS.adminUpdateContact, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert('Contact info updated successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to update contact info');
+        });
+      });
+
+      // ============================================
+      // SITE SETTINGS
+      // ============================================
+      function loadSiteSettings() {
+        fetch(API_ENDPOINTS.siteSettings)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('settingsSiteName').value = data.site_name || '';
+            document.getElementById('settingsLogoURL').value = data.logo_url || '';
+            document.getElementById('settingsFaviconURL').value = data.favicon_url || '';
+            document.getElementById('settingsMetaDescription').value = data.meta_description || '';
+            document.getElementById('settingsMetaKeywords').value = data.meta_keywords || '';
+          })
+          .catch(error => console.error('Error loading settings:', error));
+      }
+
+      document.getElementById('settingsForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+          site_name: document.getElementById('settingsSiteName').value,
+          logo_url: document.getElementById('settingsLogoURL').value,
+          favicon_url: document.getElementById('settingsFaviconURL').value,
+          meta_description: document.getElementById('settingsMetaDescription').value,
+          meta_keywords: document.getElementById('settingsMetaKeywords').value
+        };
+
+        fetch(API_ENDPOINTS.adminUpdateSettings, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert('Settings updated successfully!');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to update settings');
+        });
+      });
+    </script>
+  </body>
+</html>

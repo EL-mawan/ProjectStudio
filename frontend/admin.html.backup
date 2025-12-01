@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Project Studio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar {
+            background-color: #2c3e50;
+            color: white;
+            height: calc(100vh - 56px);
+            position: fixed;
+            width: 250px;
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: #667eea;
+            padding-left: 20px;
+        }
+        .sidebar a.active {
+            background-color: rgba(102, 126, 234, 0.2);
+            border-left-color: #667eea;
+            color: white;
+        }
+        .sidebar-heading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5) !important;
+            font-weight: 600;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-confirmed { background-color: #d1ecf1; color: #0c5460; }
+        .status-paid { background-color: #d4edda; color: #155724; }
+        .status-in_progress { background-color: #cce5ff; color: #004085; }
+        .status-completed { background-color: #d4edda; color: #155724; }
+        .status-cancelled { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-camera me-2"></i>Project Studio - Admin
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i> View Website
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> <span id="adminName"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-home me-2"></i>Homepage</a></li>
+                            <li><a class="dropdown-item" href="about.html"><i class="fas fa-info-circle me-2"></i>About</a></li>
+                            <li><a class="dropdown-item" href="portfolio.html"><i class="fas fa-images me-2"></i>Portfolio</a></li>
+                            <li><a class="dropdown-item" href="contact.html"><i class="fas fa-envelope me-2"></i>Contact</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#orders">
+                                <i class="fas fa-shopping-cart me-2"></i> Pesanan
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item mt-3">
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>Content Management</span>
+                            </h6>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#services">
+                                <i class="fas fa-concierge-bell me-2"></i> Layanan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#packages">
+                                <i class="fas fa-box me-2"></i> Paket
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about">
+                                <i class="fas fa-info-circle me-2"></i> Tentang
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#hero">
+                                <i class="fas fa-image me-2"></i> Hero Section
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contact">
+                                <i class="fas fa-address-book me-2"></i> Kontak
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#settings">
+                                <i class="fas fa-cog me-2"></i> Pengaturan
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item mt-3">
+                            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>Website</span>
+                            </h6>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html" target="_blank">
+                                <i class="fas fa-external-link-alt me-2"></i> Lihat Website
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <h1 class="h2">Dashboard</h1>
+                
+                <!-- Statistics -->
+                <div class="row my-4">
+                    <div class="col-md-3">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Pesanan</h5>
+                                <h2 id="totalOrders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title">Pesanan Selesai</h5>
+                                <h2 id="completedOrders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Pesanan Pending</h5>
+                                <h2 id="pendingOrders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-danger">
+                            <div class="card-body">
+                                <h5 class="card-title">Pesanan Dibatalkan</h5>
+                                <h2 id="cancelledOrders">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Daftar Pesanan</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Layanan</th>
+                                        <th>Tanggal Acara</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <!-- Data akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal untuk edit status -->
+    <div class="modal fade" id="editStatusModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Status Pesanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editOrderId">
+                    <div class="mb-3">
+                        <label for="statusSelect" class="form-label">Status</label>
+                        <select class="form-select" id="statusSelect">
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="paid">Paid</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="saveStatusBtn">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cek apakah user sudah login
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+        if (!token || !user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('adminName').textContent = user.name;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+
+        // Load orders 
+        function loadOrders() {
+            fetch(API_ENDPOINTS.adminOrders, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(response => response.json())
+            .then(orders => {
+                displayOrders(orders);
+                updateStatistics(orders);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function displayOrders(orders) {
+            const tbody = document.getElementById('ordersTable');
+            tbody.innerHTML = '';
+
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.customer_name}<br><small>${order.customer_phone}</small></td>
+                    <td>${order.service_type} - ${order.package_name}</td>
+                    <td>${new Date(order.event_date).toLocaleDateString('id-ID')}</td>
+                    <td>Rp ${order.subtotal.toLocaleString('id-ID')}</td>
+                    <td><span class="order-status status-${order.status}">${order.status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-status" data-id="${order.id}" data-status="${order.status}">
+                            <i class="fas fa-edit"></i> Edit Status
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    
+                    document.getElementById('editOrderId').value = orderId;
+                    document.getElementById('statusSelect').value = currentStatus;
+                    
+                    const modal = new bootstrap.Modal(document.getElementById('editStatusModal'));
+                    modal.show();
+                });
+            });
+        }
+
+        function updateStatistics(orders) {
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('completedOrders').textContent = orders.filter(o => o.status === 'completed').length;
+            document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'pending').length;
+            document.getElementById('cancelledOrders').textContent = orders.filter(o => o.status === 'cancelled').length;
+        }
+
+        // Save status
+        document.getElementById('saveStatusBtn').addEventListener('click', function() {
+            const orderId = document.getElementById('editOrderId').value;
+            const newStatus = document.getElementById('statusSelect').value;
+
+            fetch(API_ENDPOINTS.adminUpdateOrderStatus(orderId), {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Tutup modal dan refresh data
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editStatusModal'));
+                modal.hide();
+                loadOrders();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        // Load orders on page load
+        loadOrders();
+    </script>
+</body>
+</html>

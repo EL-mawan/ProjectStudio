@@ -440,8 +440,32 @@ function updateCartSummary() {
 }
 
 function proceedToCheckout() {
+    // Cek apakah user sudah login
+    const token = localStorage.getItem('token');
+    if (!token) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Harap Login',
+            text: 'Anda harus login terlebih dahulu untuk melanjutkan pembayaran.',
+            showCancelButton: true,
+            confirmButtonText: 'Login Sekarang',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Simpan state cart ke localStorage agar bisa direstore setelah login (opsional)
+                localStorage.setItem('pendingCart', JSON.stringify(currentState.cart));
+                window.location.href = 'login.html';
+            }
+        });
+        return;
+    }
+
     if (currentState.cart.length === 0) {
-        alert('Keranjang kosong. Silakan tambahkan layanan terlebih dahulu.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Keranjang Kosong',
+            text: 'Silakan tambahkan layanan terlebih dahulu.'
+        });
         return;
     }
     
